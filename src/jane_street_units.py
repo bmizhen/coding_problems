@@ -68,7 +68,8 @@ def create_conversion_graph(
 def convert(facts_map, query):
     amount, from_unit, to_unit = query
 
-    if from_unit not in facts_map or to_unit not in facts_map:
+    if ((from_unit not in facts_map) or
+            (to_unit not in facts_map)):
         return "Can't Convert"
 
     answer = amount * convert_rec(
@@ -117,3 +118,4 @@ print(convert(conversion_graph, (10, 'f', 'mm')))
 print(convert(conversion_graph, (10, 'year', 'sec')))
 print(convert(conversion_graph, (10, 'year', 'in')))
 print(convert(conversion_graph, (10, 'year', 'year')))
+print(convert(conversion_graph, (10, 'year', 'bar')))
