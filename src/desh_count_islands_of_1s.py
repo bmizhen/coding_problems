@@ -11,40 +11,29 @@ Any two adjacent 1’s (in any of 8 directions) are part of same island.
 
 
 def count_islands(the_sea_map):
-    tile_map = dict()
-    island_counter = 0
+    visited_island_tiles = set()
 
-    def mark_land_tiles(x, y, island_marker):
+    def mark_connected_land(x, y):
         if x < 0 or y < 0 or x >= len(the_sea_map) or y >= len(the_sea_map[x]):
-            return -1
+            return 0
 
-        if the_sea_map[x][y] == 0:
-            return -1
+        if (x, y) in visited_island_tiles or the_sea_map[x][y] == 0:
+            return 0
 
-        if (x, y) in tile_map:
-            return tile_map[(x, y)][0]
+        visited_island_tiles.add((x, y))
 
-        tile_map[(x, y)] = island_marker
+        neighbors_offsets = [(-1, -1), (-1, 0), (-1, 1),
+                             (0, -1), (0, 1), (1, 1),
+                             (1, 0), (1, -1)]
 
-        for dx, dy in [(-1, -1), (-1, 0), (-1, 1),
-                       (0, -1), (0, 1), (1, 1),
-                       (1, 0), (1, -1)]:
-            island_marker_value = mark_land_tiles(
-                x + dx, y + dy, island_marker)
-            if island_marker_value > 0:
-                island_marker[0] = island_marker_value
+        for dx, dy in neighbors_offsets:
+            mark_connected_land(x + dx, y + dy)
 
-        return island_marker[0]
+        return 1
 
-    for x in range(0, len(the_sea_map)):
-        for y in range(len(the_sea_map[x])):
-            island_marker = [0]
-            island_marker[0] = mark_land_tiles(x, y, island_marker)
-            if island_marker[0] == 0:
-                island_counter += 1
-                island_marker[0] = island_counter
-
-    return island_counter
+    return sum(mark_connected_land(x, y)
+               for x in range(0, len(the_sea_map))
+               for y in range(0, len(the_sea_map[x])))
 
 
 print(count_islands([[]]))
