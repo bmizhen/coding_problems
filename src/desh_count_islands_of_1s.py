@@ -15,10 +15,10 @@ def count_islands(the_sea_map):
 
     def mark_connected_land(x, y):
         if x < 0 or y < 0 or x >= len(the_sea_map) or y >= len(the_sea_map[x]):
-            return 0
+            return False
 
         if (x, y) in visited_island_tiles or the_sea_map[x][y] == 0:
-            return 0
+            return False
 
         visited_island_tiles.add((x, y))
 
@@ -29,7 +29,7 @@ def count_islands(the_sea_map):
         for dx, dy in neighbors_offsets:
             mark_connected_land(x + dx, y + dy)
 
-        return 1
+        return True
 
     return sum(mark_connected_land(x, y)
                for x in range(0, len(the_sea_map))
