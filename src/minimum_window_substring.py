@@ -25,7 +25,7 @@ Explanation: Both 'a's from t must be included in the window.
 
 class SlidingWindowTracker:
     def __init__(self, chars):
-        # keep count how many copies do we need of each character
+        # how many copies do we need of each character
         # this object will not change
         self.required_char_counts = {}
 
@@ -38,9 +38,11 @@ class SlidingWindowTracker:
         self.sliding_window_char_tracker = {}
 
         # how many entries in self.sliding_window_char_tracker do not have
-        # enough copies of the required char. Note, we don't count every char.
-        # We only count keys that don't have enough chars.
-        # When this is 0 - we have all required chars inside the sliding window.
+        # enough copies of the required char.
+        # Note, here we don't count every missing char.
+        # We only count unique missing chars.
+        #
+        # When equal to 0 - no missing chars in the sliding window.
         self.incomplete_char_tracker_entries = len(self.required_char_counts)
 
         self.smallest_window = None
