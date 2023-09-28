@@ -6,20 +6,11 @@ Note: You must not use any built-in BigInteger library or convert the inputs
 to integer directly.
 
 """
+from itertools import zip_longest
 
 
 def reverse_str(s):
     return str(s)[::-1]
-
-
-def pad_zeros(num1, num2):
-    padding = '0' * abs(len(num1) - len(num2))
-
-    if len(num1) > len(num2):
-        num2 += padding
-    else:
-        num1 += padding
-    return num1, num2
 
 
 ADDITION_TABLE = {
@@ -36,14 +27,12 @@ MULTIPLICATION_TABLE = {
 
 
 def add_rev(num1, num2):
-    num1, num2 = pad_zeros(num1, num2)
-
     carry = '0'
     result = []
 
-    for i in range(len(num1)):
+    for digit1, digit2 in zip_longest(num1, num2, fillvalue='0'):
         # may overflow into tens
-        units, tens, *_ = ADDITION_TABLE[num1[i], num2[i]]
+        units, tens, *_ = ADDITION_TABLE[digit1, digit2]
         units_and_carry, new_carry, *_ = ADDITION_TABLE[units, carry]
         carry, *_ = ADDITION_TABLE[tens, new_carry]
 
@@ -56,7 +45,7 @@ def add_rev(num1, num2):
 
 
 def multiply_rev(num1, num2):
-    result = '0'
+    result = []
 
     for power, digit in enumerate(num1):
         intermediate_sum = ['0'] * power
@@ -71,10 +60,10 @@ def multiply_rev(num1, num2):
         if carry != '0':
             intermediate_sum.append(carry)
 
-        result = add_rev(result, ''.join(intermediate_sum))
+        result = add_rev(result, intermediate_sum)
 
     if result == ['0'] * len(result):
-        return '0'
+        return ['0']
 
     return result
 
