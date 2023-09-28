@@ -71,7 +71,10 @@ def multiply_rev(num1, num2):
         if carry != '0':
             intermediate_sum.append(carry)
 
-        result = add_rev(result, intermediate_sum)
+        result = add_rev(result, ''.join(intermediate_sum))
+
+    if result == ['0'] * len(result):
+        return '0'
 
     return result
 
@@ -101,3 +104,8 @@ print(multiply_symbolic("5", "5"))
 print(multiply_symbolic("9", "1000"))
 print(multiply_symbolic("999", "99"))
 print(multiply_symbolic("23", "123"))
+
+for i in range(100):
+    for j in range(100):
+        # print(i, j, multiply_symbolic(str(i), str(j)))
+        assert str(i * j) == multiply_symbolic(str(i), str(j))
