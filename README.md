@@ -10,3 +10,5 @@ Some problems:
 https://github.com/hxu296/leetcode-company-wise-problems-2022
 https://aperiodic.net/phil/scala/s-99/
 
+Resources:
+https://cses.fi/book/book.pdf
