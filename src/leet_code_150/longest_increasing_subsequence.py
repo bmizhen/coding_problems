@@ -8,7 +8,8 @@ class Solution:
         for state_index in range(1, len(nums)):
             for nums_index in range(state_index - 1, -1, -1):
                 if nums[state_index] > nums[nums_index]:
-                    state[state_index] = max(state[state_index], 1 + state[nums_index])
+                    state[state_index] = max(state[state_index],
+                                             1 + state[nums_index])
 
         return max(state)
 
