@@ -2,7 +2,13 @@ from pprint import pprint
 from typing import Any
 
 
-def rotate(matrix: list[list[Any]]) -> list[list[Any]]:
+def rotate_zip(matrix: list[list[Any]]) -> list[list[Any]]:
+    matrix.reverse()
+
+    return list(map(list, zip(*matrix)))
+
+
+def rotate_transpose(matrix: list[list[Any]]) -> list[list[Any]]:
     matrix.reverse()
 
     for i in range(len(matrix)):
@@ -11,6 +17,8 @@ def rotate(matrix: list[list[Any]]) -> list[list[Any]]:
 
     return matrix
 
+
+rotate = rotate_zip
 
 pprint(rotate([]))
 pprint(rotate([[1]]))
