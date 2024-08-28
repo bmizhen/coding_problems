@@ -1,47 +1,48 @@
-CACHE = set()
+def find_max_pal_at(string, left, right):
+    while (left >= 0 and right < len(string)
+           and string[left] == string[right]):
+        left -= 1
+        right += 1
+
+    return left + 1, right - 1
 
 
-def is_palindrome(string, boundary):
-    start, end = boundary
-    while start < end:
-        if string[start] != string[end - 1]:
-            return False
-        start += 1
-        end -= 1
+def find_palindrome_2(string):
+    if not string:
+        return string
 
-    return True
+    left = 0
+    right = 0
 
+    for i in range(len(string)):
+        # odd length
+        l, r = find_max_pal_at(string, i - 1, i + 1)
+        if right - left < r - l:
+            left, right = l, r
+        # even length
+        l, r = find_max_pal_at(string, i - 1, i)
+        if right - left < r - l:
+            left, right = l, r
 
-def find_palindrome(string, boundary):
-    start, end = boundary
-    if end - start == 0:
-        return ''
-
-    if boundary in CACHE:
-        return ''
-
-    CACHE.add(boundary)
-
-    if is_palindrome(string, boundary):
-        return string[start: end]
-
-    left = find_palindrome(string, (start, end - 1))
-    right = find_palindrome(string, (start + 1, end))
-
-    return left if (len(left) >= len(right)) else right
+    return string[left:right + 1]
 
 
 def find_p(string):
-    global CACHE
-    CACHE = set()
-    print('>>>', string)
-    return find_palindrome(string, (0, len(string)))
+    result = find_palindrome_2(string)
+    print('>>>', result)
+    return result
 
 
 if __name__ == '__main__':
-    print(find_p(''))
-    print(find_p('a'))
-    print(find_p('ab'))
-    print(find_p('bb'))
-    print(find_p('aaba'))
-    print(find_p('aabaa'))
+    assert find_p('') == ''
+    assert find_p('ac') == 'a'
+    assert find_p('a') == 'a'
+    assert find_p('aaba') == 'aba'
+    assert find_p('aabaa') == 'aabaa'
+    assert find_p('abaa') == 'aba'
+    assert find_p('1234567890') == '1'
+
+    assert find_p('ab') == 'a'
+    assert find_p('bb') == 'bb'
+
+
