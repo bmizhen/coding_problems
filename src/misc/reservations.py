@@ -32,23 +32,17 @@ Total seats:         10  25
 Hence, answer = [10,25]
 """
 
-from collections import defaultdict
+from itertools import accumulate
 
 
 def calculate_seats(bookings, n):
-    increase_map = defaultdict(int)
-    decrease_map = defaultdict(int)
-
+    changes = [0] * (n + 2)  # We use n+2 to handle the case where end+1 == n+1
     for start, end, value in bookings:
-        increase_map[start] += value
-        decrease_map[end + 1] -= value
+        changes[start] += value
+        # changes[end + 1] -= value
+        changes
 
-    flight_seats = []
-    counter = 0
-    for i in range(1, n + 1):
-        counter += increase_map[i] + decrease_map[i]
-        flight_seats.append(counter)
-    return flight_seats
+    return list(accumulate(changes[1:n + 1]))  # We slice to get the correct range
 
 
 print(calculate_seats([[1, 1, 20]], 1))
@@ -62,18 +56,3 @@ print(
 
 print(calculate_seats([[1, 2, 10], [2, 3, 20], [2, 5, 25]], 10))
 
-"""
-class Solution {
-    public int[] corpFlightBookings(int[][] bookings, int n) {
-        int[] res = new int[n];
-        for (int[] v : bookings) {
-            res[v[0] - 1] += v[2];
-            if (v[1] < n)
-                res[v[1]] -= v[2];
-        }
-        for (int i = 1; i < n; ++i)
-            res[i] += res[i - 1];
-        return res;
-    }
-}
-"""
