@@ -14,15 +14,17 @@ def find_palindrome_2(string):
     left = 0
     right = 0
 
+    def update_bounds(bounds):
+        nonlocal left, right
+        l, r = bounds
+        if right - left < r - l:
+            left, right = l, r
+
     for i in range(len(string)):
         # odd length
-        l, r = find_max_pal_at(string, i - 1, i + 1)
-        if right - left < r - l:
-            left, right = l, r
+        update_bounds(find_max_pal_at(string, i - 1, i + 1))
         # even length
-        l, r = find_max_pal_at(string, i - 1, i)
-        if right - left < r - l:
-            left, right = l, r
+        update_bounds(find_max_pal_at(string, i - 1, i))
 
     return string[left:right + 1]
 
@@ -44,5 +46,3 @@ if __name__ == '__main__':
 
     assert find_p('ab') == 'a'
     assert find_p('bb') == 'bb'
-
-
