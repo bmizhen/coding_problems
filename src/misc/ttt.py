@@ -89,12 +89,11 @@ class AIPlayer(Player):
     def get_next_move(self, board: Board) -> tuple[int, int]:
         # if the board is empty take the center
         if board.is_empty():
-            # TODO: don't assume 3x3
             return 1, 1
 
-        # if there is a winning move do that
         all_lines = board.all_lines()
 
+        # if there is a winning move do that
         for line, coords in all_lines:
             if line.count(' ') == 1 and line.count(self.symbol) == 2:
                 return coords[line.index(' ')]
@@ -105,10 +104,10 @@ class AIPlayer(Player):
                 return coords[line.index(' ')]
 
         # otherwise do a random move
-        for row in range(3):
-            for col in range(3):
-                if board.board[row][col] == ' ':
-                    return row, col
+        for line, coords in all_lines:
+            index = line.index(' ')
+            if index != -1:
+                return coords[line.index(' ')]
 
         raise Exception(' should not be here')
 
@@ -136,7 +135,6 @@ def play_game(board):
             player_index = (player_index + 1) % len(players)
         else:
             print('Invalid move. Try again.')
-            raise Exception(f'Move {row, col}')
 
 
 if __name__ == '__main__':
