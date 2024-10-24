@@ -8,6 +8,7 @@ def rotate_zip(matrix: list[list[Any]]) -> list[list[Any]]:
     return list(map(list, zip(*matrix)))
 
 
+
 def rotate_transpose(matrix: list[list[Any]]) -> list[list[Any]]:
     matrix.reverse()
 
