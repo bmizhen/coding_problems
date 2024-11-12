@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
 from collections import defaultdict
 from typing import List, Optional
 
@@ -8,6 +9,7 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
 
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
